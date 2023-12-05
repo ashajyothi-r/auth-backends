@@ -122,7 +122,7 @@ class EdXOAuth2(BaseOAuth2):
 
     def get_public_or_internal_url_root(self):
         #return self.setting('PUBLIC_URL_ROOT') or self.setting('URL_ROOT')
-	return configuration_helpers.get_value("LMS_ROOT_URL", self.setting('PUBLIC_URL_ROOT') or self.setting('URL_ROOT'))
+        return configuration_helpers.get_value("LMS_ROOT_URL", self.setting('PUBLIC_URL_ROOT') or self.setting('URL_ROOT'))
 
     def _map_user_details(self, response):
         """Maps key/values from the response to key/values in the user model.
