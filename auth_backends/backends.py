@@ -5,6 +5,8 @@ For more information visit https://docs.djangoproject.com/en/dev/topics/auth/cus
 import jwt
 from django.dispatch import Signal
 from social_core.backends.oauth import BaseOAuth2
+from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
+
 
 PROFILE_CLAIMS_TO_DETAILS_KEY_MAP = {
     'preferred_username': 'username',
@@ -119,7 +121,8 @@ class EdXOAuth2(BaseOAuth2):
         return details
 
     def get_public_or_internal_url_root(self):
-        return self.setting('PUBLIC_URL_ROOT') or self.setting('URL_ROOT')
+        #return self.setting('PUBLIC_URL_ROOT') or self.setting('URL_ROOT')
+	return configuration_helpers.get_value("LMS_ROOT_URL", self.setting('PUBLIC_URL_ROOT') or self.setting('URL_ROOT'))
 
     def _map_user_details(self, response):
         """Maps key/values from the response to key/values in the user model.
