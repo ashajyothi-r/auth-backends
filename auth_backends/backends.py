@@ -121,7 +121,7 @@ class EdXOAuth2(BaseOAuth2):
         return details
 
     def get_public_or_internal_url_root(self):
-        #return self.setting('PUBLIC_URL_ROOT') or self.setting('URL_ROOT')
+ 
         request = crum.get_current_request() 
         request_from = getattr(request, 'from', None)
 
