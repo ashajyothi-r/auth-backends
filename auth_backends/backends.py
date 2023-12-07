@@ -4,6 +4,7 @@ For more information visit https://docs.djangoproject.com/en/dev/topics/auth/cus
 """
 import jwt
 import crum
+import logging
 from django.dispatch import Signal
 from social_core.backends.oauth import BaseOAuth2
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
@@ -123,8 +124,7 @@ class EdXOAuth2(BaseOAuth2):
     def get_public_or_internal_url_root(self):
  
         request = crum.get_current_request() 
-        request_from = getattr(request, 'from', None)
-
+        request_from = request.GET.get('from', None)
         if request_from:
             return "https://" + request_from
 
