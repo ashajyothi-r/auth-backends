@@ -8,6 +8,8 @@ import logging
 from django.dispatch import Signal
 from social_core.backends.oauth import BaseOAuth2
 from openedx.core.djangoapps.site_configuration import helpers as configuration_helpers
+from django.contrib.sites.models import Site
+from openedx.core.djangoapps.theming.helpers import get_config_value_from_site_or_settings
 
 PROFILE_CLAIMS_TO_DETAILS_KEY_MAP = {
     'preferred_username': 'username',
@@ -126,6 +128,8 @@ class EdXOAuth2(BaseOAuth2):
         request = crum.get_current_request() 
         request_from = request.GET.get('from', None)
         if request_from:
+            site_obj = Site.objects.get(domain = request_from)
+            request.session["org"] = get_config_value_from_site_or_settings("course_org_filter", site_obj) 
             return "https://" + request_from
 
         return configuration_helpers.get_value("LMS_ROOT_URL", self.setting('PUBLIC_URL_ROOT') or self.setting('URL_ROOT')) 
